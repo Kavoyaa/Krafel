@@ -56,6 +56,10 @@ bot.command('poll', (ctx) => {
 // Run the bot
 bot.launch()
 
+// Runs the webserver; See webserver.js for more info.
+const webserver = require("./webserver")
+webserver()
+
 // Enable graceful stop
 process.once('SIGINT', () => bot.stop('SIGINT'))
 process.once('SIGTERM', () => bot.stop('SIGTERM'))
