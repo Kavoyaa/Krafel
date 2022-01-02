@@ -1,4 +1,5 @@
 const { Telegraf } = require('telegraf')
+const request = require('request');
 
 const bot = new Telegraf(process.env['TOKEN'])
 
@@ -9,7 +10,7 @@ bot.start((ctx) => {
 
 // Help
 bot.help((ctx) => {
-	ctx.replyWithMarkdown('*Krafel Command List*\n\nCurrent commands:\n-/start : Shows the introductory message.\n-/help : Shows a list of all commands(this message).\n-/hello : Says hello.\n-/bye : Says bye.\n-/say <message> : Says the given message.\n-/poll <question> | <option 1>, <option 2>, <option 3> : Makes a poll.')
+	ctx.replyWithMarkdown('*Krafel Command List*\n\nCurrent commands:\n-/start : Shows the introductory message.\n-/help : Shows a list of all commands(this message).\n-/hello : Says hello.\n-/bye : Says bye.\n-/say <message> : Says the given message.\n-/poll <question> | <option 1>, <option 2>, <option 3> : Makes a poll.\n-/dog : Shows a random dog picture.')
 })
 
 // Hello
@@ -20,6 +21,19 @@ bot.command('hello', (ctx) => {
 // Bye
 bot.command('bye', (ctx) => {
 	ctx.reply('Bye!')
+})
+
+// Dog
+bot.command('dog', (ctx) => {
+	const options = {
+		method: "GET",
+		url: "https://dog.ceo/api/breeds/image/random"
+	}
+
+	request(options, (error, response, body) => {
+		photo = JSON.parse(response.body)['message']
+		ctx.replyWithMarkdown(`[Woof🐶](${photo})`)
+	})
 })
 
 // Say
